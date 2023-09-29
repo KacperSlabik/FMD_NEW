@@ -150,7 +150,7 @@ export default function BookAppointment() {
 		}
 	};
 
-	const handleFormSubmit = async (values) => {
+	const bookNow = async (values) => {
 		setIsAvailable(false);
 		const formattedStartDate = formatDateTime(startDate, startTime);
 		const formattedEndDate = formatDateTime(endDate, endTime);
@@ -162,6 +162,8 @@ export default function BookAppointment() {
 				{
 					djId: params.djId,
 					userId: user._id,
+					djInfo: dj,
+					userInfo: user,
 					startDate: formattedStartDate,
 					endDate: formattedEndDate,
 					...values,
@@ -190,7 +192,7 @@ export default function BookAppointment() {
 	return (
 		<Layout>
 			{dj && (
-				<Form layout='vertical' onFinish={handleFormSubmit}>
+				<Form layout='vertical' onFinish={bookNow}>
 					<h1 className='page-title'>
 						Rezerwacja: {dj.firstName} {dj.lastName}
 					</h1>

@@ -9,6 +9,12 @@ const bookingSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		userInfo: {
+			type: Object,
+		},
+		djInfo: {
+			type: Object,
+		},
 		startDate: {
 			type: Date,
 			required: true,
