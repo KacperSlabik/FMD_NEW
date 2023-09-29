@@ -1,0 +1,45 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Layout from '../components/Layout';
+import Dj from '../components/Dj';
+import { Col, Row } from 'antd';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+function Home() {
+  const [djs, setDjs] = useState([]);
+  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  if (user?.isAdmin) navigate('/app/admin/home');
+
+  const getData = async () => {
+    try {
+      const response = await axios.get('/api/user/get-all-djs', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+      });
+      if (response.data.success) setDjs(response.data.data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <Layout>
+      <h1>Strona Główna</h1>
+
+      <Row gutter={20}>
+        {djs.map((dj) => (
+          <Col span={8} xs={24} sm={24} lg={8} key={dj._id}>
+            <Dj dj={dj} />
+          </Col>
+        ))}
+      </Row>
+    </Layout>
+  );
+}
+
+export default Home;
