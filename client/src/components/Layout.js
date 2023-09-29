@@ -4,9 +4,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge } from 'antd';
 import { resetUser } from '../redux/userSlice';
+import { useEffect } from 'react';
 
 function Layout({ children }) {
-	const [collapsed, setCollapsed] = useState(false);
+	const [collapsed, setCollapsed] = useState(
+		localStorage.getItem('collapsed') === 'true' ? true : false
+	);
 	const { user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -70,9 +73,9 @@ function Layout({ children }) {
 			icon: 'ri-user-star-line',
 		},
 		// {
-		//   name: 'Profil',
-		//   path: `/app/profile`,
-		//   icon: 'ri-user-settings-line',
+		// 	name: 'Profil',
+		// 	path: `/app/profile`,
+		// 	icon: 'ri-user-settings-line',
 		// },
 	];
 
@@ -87,13 +90,19 @@ function Layout({ children }) {
 		? 'Dj'
 		: 'Użytkownik';
 
+	useEffect(() => {
+		localStorage.setItem('collapsed', collapsed);
+	}, [collapsed]);
+
 	return (
 		<div className='main'>
 			<div className='d-flex layout'>
-				<div className='sidebar'>
+				<div className={`sidebar ${collapsed && 'collapsed'}`}>
 					<div className='sidebar-header'>
-						<h1 className='logo'>FMD</h1>
-						<p className='text-white'>{role}</p>
+						<h1 className={`logo ${collapsed && 'collapsed-logo'}`}>FMD</h1>
+						<p className={`text-white ${collapsed && 'collapsed-text'}`}>
+							{role}
+						</p>
 					</div>
 
 					<div className={`menu ${collapsed && 'fit-content'}`}>
@@ -105,10 +114,17 @@ function Layout({ children }) {
 										isActive && 'active-menu-item'
 									}`}
 								>
-									<i
-										className={`${menu.icon} ${isActive && 'active-menu-icon'}`}
-									></i>
-									{!collapsed && <Link to={menu.path}>{menu.name}</Link>}
+									<Link
+										to={menu.path}
+										style={{ display: 'block', width: '100%' }}
+									>
+										<i
+											className={`${menu.icon} ${
+												isActive && 'active-menu-icon '
+											}`}
+										></i>
+										{!collapsed && menu.name}
+									</Link>
 								</div>
 							);
 						})}
