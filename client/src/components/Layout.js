@@ -114,10 +114,7 @@ function Layout({ children }) {
 										isActive && 'active-menu-item'
 									}`}
 								>
-									<Link
-										to={menu.path}
-										style={{ display: 'block', width: '100%' }}
-									>
+									<Link to={menu.path}>
 										<i
 											className={`${menu.icon} ${
 												isActive && 'active-menu-icon '
@@ -129,7 +126,7 @@ function Layout({ children }) {
 							);
 						})}
 						<div
-							className={'d-flex menu-item'}
+							className={'d-flex menu-item logout-button'}
 							onClick={() => {
 								localStorage.clear();
 								dispatch(resetUser());
