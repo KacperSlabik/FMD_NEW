@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import '../layout.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Badge } from 'antd';
+import { Badge, Popover } from 'antd';
 import { resetUser } from '../redux/userSlice';
 import { useEffect } from 'react';
 
@@ -109,23 +109,30 @@ function Layout({ children }) {
 					<div className={`menu ${collapsed && 'fit-content'}`}>
 						{menuToBeRendered.map((menu) => {
 							const isActive = location.pathname === menu.path;
+
 							return (
 								<div
 									className={`d-flex menu-item ${
 										isActive && 'active-menu-item'
 									}`}
 								>
-									<Link to={menu.path}>
-										<i
-											className={`${menu.icon} ${
-												isActive && 'active-menu-icon '
-											}`}
-										></i>
-										{!collapsed && menu.name}
-									</Link>
+									<Popover
+										content={collapsed ? menu.name : null}
+										trigger='hover'
+									>
+										<Link to={menu.path}>
+											<i
+												className={`${menu.icon} ${
+													isActive && 'active-menu-icon '
+												}`}
+											></i>
+											{!collapsed && menu.name}
+										</Link>
+									</Popover>
 								</div>
 							);
 						})}
+
 						<div
 							className={'d-flex menu-item logout-button'}
 							onClick={() => {
@@ -135,10 +142,12 @@ function Layout({ children }) {
 								navigate('/login');
 							}}
 						>
-							<Link to='/login'>
-								<i className='ri-logout-circle-line'></i>
-								{!collapsed && 'Wyloguj'}
-							</Link>
+							<Popover content={collapsed ? 'Wyloguj' : null} trigger='hover'>
+								<Link to='/login'>
+									<i className='ri-logout-circle-line'></i>
+									{!collapsed && 'Wyloguj'}
+								</Link>
+							</Popover>
 						</div>
 					</div>
 				</div>
