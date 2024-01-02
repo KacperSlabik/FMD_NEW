@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import '../layout.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -130,11 +131,14 @@ function Layout({ children }) {
 							onClick={() => {
 								localStorage.clear();
 								dispatch(resetUser());
+								toast.success('Pomyślnie wylogowano!');
 								navigate('/login');
 							}}
 						>
-							<i className='ri-logout-circle-line'></i>
-							{!collapsed && <Link to='/login'>Wyloguj</Link>}
+							<Link to='/login'>
+								<i className='ri-logout-circle-line'></i>
+								{!collapsed && 'Wyloguj'}
+							</Link>
 						</div>
 					</div>
 				</div>
