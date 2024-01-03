@@ -13,6 +13,7 @@ import LandingPage from './pages/LandingPage';
 import DjsList from './pages/Admin/DjsList';
 import UsersList from './pages/Admin/UsersList';
 import Profile from './pages/Dj/Profile';
+import UserProfile from './pages/Profile';
 import BookDj from './pages/BookDj';
 import Bookings from './pages/Bookings';
 import DjBookings from './pages/Dj/DjBookings';
@@ -92,7 +93,7 @@ function App() {
             path="/app/profile/:djId"
             element={
               <ProtectedRoute>
-                <Profile />
+                <UserProfile />
               </ProtectedRoute>
             }
           />
