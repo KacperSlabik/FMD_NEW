@@ -4,14 +4,18 @@ export default function Dj({ dj }) {
   const navigate = useNavigate();
   return (
     <div className="card p-2 dj-card" onClick={() => navigate(`/app/book-dj/${dj._id}`)}>
-      <h1 className="card-title">
-        {dj.alias}
-        <h1 className="normal-text">
-          {dj.firstName} {dj.lastName}
-        </h1>
-      </h1>
-
-      <p className="card-text ">{dj.djDescription}</p>
+      <header>
+        {dj.profileImage && <img src={dj.profileImage} className="rounded" alt={dj.alias} />}
+        <div>
+          <h1 className="card-title">
+            {dj.alias}
+            <h1 className="normal-text">
+              {dj.firstName} {dj.lastName}
+            </h1>
+          </h1>
+          <p className="card-text ">{dj.djDescription}</p>
+        </div>
+      </header>
 
       <hr className="mt-0" />
 
