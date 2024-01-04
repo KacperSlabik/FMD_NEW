@@ -1,33 +1,29 @@
 import { Button, Form, Input } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { hideLoading, showLoading } from '../redux/alertsSlice';
 
 function ResetPassword() {
-	const { loading } = useSelector((state) => state.alerts);
-
-	const dispatch = useDispatch();
+	const [email, setEmail] = useState('');
 	const navigate = useNavigate();
-	const onFinish = async (values) => {
-		if (values.password !== values.passwordRepeat) {
-			toast.error('Hasła nie są zgodne.');
-			return;
-		}
+	const dispatch = useDispatch();
 
+	const onFinish = async () => {
 		try {
 			dispatch(showLoading());
-			const response = await axios.post('/api/user/reset-password', values);
-			console.log(values);
+
+			const response = await axios.post('/api/user/reset-password', {
+				email,
+			});
 
 			dispatch(hideLoading());
+
 			if (response.data.success) {
-				console.log(response.data);
 				toast.success(response.data.message);
-				toast('Przekierowanie do strony logowania');
-				navigate('/login');
+				navigate(`/reset-password`);
 			} else {
 				toast.error(response.data.message);
 			}
@@ -42,15 +38,15 @@ function ResetPassword() {
 			<div className='authentication-form card p-2'>
 				<h1 className='card-title'>Zapomiałeś hasła? 😂</h1>
 				<Form layout='vertical' onFinish={onFinish}>
-					<Form.Item label='Email' name='email'>
-						<Input placeholder='Email'></Input>
-					</Form.Item>
-					<Form.Item label='Nowe hasło' name='password'>
-						<Input placeholder='Hasło' type='password'></Input>
-					</Form.Item>
-
-					<Form.Item label='Powtórz hasło' name='passwordRepeat'>
-						<Input placeholder='Hasło' type='password'></Input>
+					<Form.Item
+						label='Email'
+						name='email'
+						rules={[{ required: true, message: 'Proszę podać adres email' }]}
+					>
+						<Input
+							placeholder='Email'
+							onChange={(e) => setEmail(e.target.value)}
+						/>
 					</Form.Item>
 					<Button
 						className='primary-button my-2 full-width-button'

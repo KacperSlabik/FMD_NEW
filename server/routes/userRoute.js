@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authMiddleware = require('../middlewares/authMiddleware');
-
+const nodemailer = require('nodemailer');
 const User = require('../models/userModel');
 const Dj = require('../models/djModel');
 const Booking = require('../models/bookingModel');
@@ -91,29 +91,103 @@ router.post('/login/auth', async (req, res) => {
 	}
 });
 
+const sendResetPasswordEmail = (email, token) => {
+	const transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			user: 'kacpero1407@gmail.com',
+			pass: 'meyc bdeq jlek tnmg',
+		},
+	});
+
+	const mailOptions = {
+		from: 'your-email@example.com',
+		to: email,
+		subject: 'Resetowanie hasła',
+		html: `<p>Kliknij poniższy link, aby zresetować hasło:</p><a href="http://localhost:3000/reset-password/${token}">Resetuj hasło</a>`,
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			console.error('Błąd podczas wysyłania e-maila:', error);
+		} else {
+			console.log('E-mail został wysłany:', info.response);
+		}
+	});
+};
+
 router.post('/reset-password', async (req, res) => {
+	const { email } = req.body;
+
 	try {
-		const user = await User.findOne({ email: req.body.email });
+		// Znajdź użytkownika w bazie danych na podstawie adresu email
+		const user = await User.findOne({ email });
+
 		if (!user) {
-			return res
-				.status(200)
-				.send({ message: 'Uzytkownik nie istnieje', success: false });
+			return res.status(404).json({
+				success: false,
+				message: 'Użytkownik o podanym adresie email nie istnieje',
+			});
 		}
 
-		const password = req.body.password;
-		const salt = await bcrypt.genSalt(10);
-		const hashedPassword = await bcrypt.hash(password, salt);
+		// Generuj token JWT
+		const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+			expiresIn: '5m',
+		});
 
-		user.password = hashedPassword;
-		user.save();
-		res
-			.status(200)
-			.send({ message: 'Pomyślnie zmieniono hasło', success: true });
+		// Wyślij e-mail z linkiem do resetowania hasła
+		sendResetPasswordEmail(email, token);
+
+		res.json({
+			success: true,
+			message: 'Link do resetowania hasła został wysłany na Twój adres email',
+			token: encodeURIComponent(token), // Dodaj token do odpowiedzi
+		});
 	} catch (error) {
-		console.log(error);
-		res
-			.status(500)
-			.send({ message: 'Błąd zmiany hasła', success: false, error });
+		console.error(error);
+		res.status(500).json({ success: false, message: 'Coś poszło nie tak' });
+	}
+});
+
+router.post('/set-password', async (req, res) => {
+	const { email, token } = req.body;
+
+	try {
+		// Znajdź użytkownika w bazie danych na podstawie adresu email
+		const user = await User.findOne({ email });
+
+		if (!user) {
+			return res.status(404).json({
+				success: false,
+				message: 'Użytkownik o podanym adresie email nie istnieje',
+			});
+		}
+
+		// Weryfikuj token JWT
+		jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+			if (err) {
+				return res.status(400).json({
+					success: false,
+					message: 'Nieprawidłowy lub wygasły token',
+				});
+			}
+
+			// Ustaw nowe hasło
+			const password = req.body.password;
+			const salt = await bcrypt.genSalt(10);
+			const hashedPassword = await bcrypt.hash(password, salt);
+
+			user.password = hashedPassword;
+			await user.save();
+
+			res.json({
+				success: true,
+				message: 'Hasło zostało zresetowane pomyślnie',
+			});
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ success: false, message: 'Coś poszło nie tak' });
 	}
 });
 

@@ -19,145 +19,154 @@ import Bookings from './pages/Bookings';
 import DjBookings from './pages/Dj/DjBookings';
 import AdminPanel from './pages/Admin/AdminPanel';
 import ResetPassword from './pages/ResetPassword';
+import ResetPasswordForm from './pages/ResetPasswordForm';
 
 function App() {
-  const { loading } = useSelector((state) => state.alerts);
-  return (
-    <div>
-      <BrowserRouter>
-        {loading && (
-          <div className="spinner-parent">
-            <div className="spinner-border" role="status"></div>
-          </div>
-        )}
+	const { loading } = useSelector((state) => state.alerts);
+	return (
+		<div>
+			<BrowserRouter>
+				{loading && (
+					<div className='spinner-parent'>
+						<div className='spinner-border' role='status'></div>
+					</div>
+				)}
 
-        <Toaster position="top-center" reverseOrder={false} />
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <PublicRoute>
-                <LandingPage />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/reset-password"
-            element={
-              <PublicRoute>
-                <ResetPassword />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/app"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/apply-dj"
-            element={
-              <ProtectedRoute>
-                <ApplyDj />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/notifications"
-            element={
-              <ProtectedRoute>
-                <Notifications />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/profile/:djId"
-            element={
-              <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/book-dj/:djId"
-            element={
-              <ProtectedRoute>
-                <BookDj />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/dj/profile/:userId"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+				<Toaster position='top-center' reverseOrder={false} />
+				<Routes>
+					<Route
+						path='/login'
+						element={
+							<PublicRoute>
+								<Login />
+							</PublicRoute>
+						}
+					/>
+					<Route
+						path='/register'
+						element={
+							<PublicRoute>
+								<Register />
+							</PublicRoute>
+						}
+					/>
+					<Route
+						path='/'
+						element={
+							<PublicRoute>
+								<LandingPage />
+							</PublicRoute>
+						}
+					/>
+					<Route
+						path='/reset-password'
+						element={
+							<PublicRoute>
+								<ResetPassword />
+							</PublicRoute>
+						}
+					/>
+					<Route
+						path='/reset-password/:token'
+						element={
+							<PublicRoute>
+								<ResetPasswordForm />
+							</PublicRoute>
+						}
+					/>
+					<Route
+						path='/app'
+						element={
+							<ProtectedRoute>
+								<Home />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/apply-dj'
+						element={
+							<ProtectedRoute>
+								<ApplyDj />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/notifications'
+						element={
+							<ProtectedRoute>
+								<Notifications />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/profile/:djId'
+						element={
+							<ProtectedRoute>
+								<UserProfile />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/book-dj/:djId'
+						element={
+							<ProtectedRoute>
+								<BookDj />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/dj/profile/:userId'
+						element={
+							<ProtectedRoute>
+								<Profile />
+							</ProtectedRoute>
+						}
+					/>
 
-          <Route
-            path="/app/admin/home"
-            element={
-              <ProtectedRoute>
-                <AdminPanel />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/admin/userslist"
-            element={
-              <ProtectedRoute>
-                <UsersList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/admin/djslist"
-            element={
-              <ProtectedRoute>
-                <DjsList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/bookings"
-            element={
-              <ProtectedRoute>
-                <Bookings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/app/dj/bookings"
-            element={
-              <ProtectedRoute>
-                <DjBookings />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+					<Route
+						path='/app/admin/home'
+						element={
+							<ProtectedRoute>
+								<AdminPanel />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/admin/userslist'
+						element={
+							<ProtectedRoute>
+								<UsersList />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/admin/djslist'
+						element={
+							<ProtectedRoute>
+								<DjsList />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/bookings'
+						element={
+							<ProtectedRoute>
+								<Bookings />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/app/dj/bookings'
+						element={
+							<ProtectedRoute>
+								<DjBookings />
+							</ProtectedRoute>
+						}
+					/>
+				</Routes>
+			</BrowserRouter>
+		</div>
+	);
 }
 
 export default App;
