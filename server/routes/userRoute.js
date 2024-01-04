@@ -10,28 +10,97 @@ const Booking = require('../models/bookingModel');
 const MusicGenre = require('../models/musicGenreModel');
 const Offer = require('../models/offerModel');
 
+const transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: 'kacpero1407@gmail.com', // Zmień na odpowiedni adres e-mail
+		pass: 'meyc bdeq jlek tnmg', // Zmień na odpowiednie hasło
+	},
+});
+
 router.post('/register', async (req, res) => {
 	try {
 		const userExists = await User.findOne({ email: req.body.email });
 		if (userExists) {
 			return res
 				.status(409)
-				.send({ message: 'User already exists', success: false });
+				.send({ message: 'Użytkownik już istnieje', success: false });
 		}
-		const password = req.body.password;
-		const salt = await bcrypt.genSalt(10);
-		const hashedPassword = await bcrypt.hash(password, salt);
-		req.body.password = hashedPassword;
-		const newuser = new User(req.body);
+
+		const newuser = new User({
+			name: req.body.name,
+			email: req.body.email,
+			password: req.body.password,
+		});
+
 		await newuser.save();
-		res
-			.status(200)
-			.send({ message: 'Zarejestrowano pomyślnie', success: true });
+
+		const token = jwt.sign({ userId: newuser._id }, process.env.JWT_SECRET, {
+			expiresIn: '1d',
+		});
+
+		const verificationLink = `http://localhost:3000/verify-email?token=${token}`;
+
+		const mailOptions = {
+			from: 'your.mail@gmail.com',
+			to: req.body.email,
+			subject: 'Potwierdzenie rejestracji',
+			html: `<p>Kliknij <a href="${verificationLink}">tutaj</a> aby potwierdzić rejestrację.</p>`,
+		};
+
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				console.error(error);
+				res
+					.status(500)
+					.send({
+						message: 'Błąd wysyłania linku autoryzacyjnego',
+						success: false,
+					});
+			} else {
+				console.log('E-mail sent: ' + info.response);
+				res.status(200).send({
+					message:
+						'Link autoryzacyjny został wysłany na podany mail. Na potwierdzenie masz 24h',
+					success: true,
+				});
+			}
+		});
 	} catch (error) {
-		console.log(error);
+		console.error(error);
+		res.status(500).send({
+			message: 'Błąd rejestracji',
+			success: false,
+			error: error.message,
+		});
+	}
+});
+
+router.get('/verify-email', async (req, res) => {
+	const token = req.query.token;
+	if (!token) {
+		return res.status(400).send({ message: 'Brak tokenu weryfikacyjnego' });
+	}
+
+	try {
+		const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+		const userId = decodedToken.userId;
+
+		const user = await User.findById(userId);
+
+		if (!user) {
+			return res.status(404).send({ message: 'Użytkownik nie znaleziony' });
+		}
+
+		user.verified = true;
+		await user.save();
+
+		res.status(200).send({ message: 'E-mail zweryfikowany pomyślnie' });
+	} catch (error) {
+		console.error(error);
 		res
 			.status(500)
-			.send({ message: 'Błąd rejestracji', success: false, error });
+			.send({ message: 'Błąd weryfikacji e-maila', error: error.message });
 	}
 });
 

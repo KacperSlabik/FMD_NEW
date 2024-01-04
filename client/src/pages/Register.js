@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Form, Input } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { hideLoading, showLoading } from '../redux/alertsSlice';
 
 function Register() {
+	const [isVerificationSent, setVerificationSent] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -14,8 +16,10 @@ function Register() {
 			dispatch(showLoading());
 			const response = await axios.post('/api/user/register', values);
 			dispatch(hideLoading());
+
 			if (response.data.success) {
 				toast.success(response.data.message);
+				setVerificationSent(true);
 				toast('Przekierowanie do strony logowania');
 				navigate('/login');
 			} else {
@@ -75,6 +79,14 @@ function Register() {
 					>
 						<Input.Password placeholder='Powtórz hasło' />
 					</Form.Item>
+
+					{isVerificationSent && (
+						<p className='verification-message'>
+							Wysłaliśmy e-mail z linkiem weryfikacyjnym. Sprawdź swoją skrzynkę
+							pocztową.
+						</p>
+					)}
+
 					<Button
 						className='primary-button my-2 full-width-button'
 						htmlType='submit'

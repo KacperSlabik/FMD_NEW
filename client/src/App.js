@@ -20,6 +20,7 @@ import DjBookings from './pages/Dj/DjBookings';
 import AdminPanel from './pages/Admin/AdminPanel';
 import ResetPassword from './pages/ResetPassword';
 import ResetPasswordForm from './pages/ResetPasswordForm';
+import VerifyEmail from './pages/VerifyEmail';
 
 function App() {
 	const { loading } = useSelector((state) => state.alerts);
@@ -47,6 +48,14 @@ function App() {
 						element={
 							<PublicRoute>
 								<Register />
+							</PublicRoute>
+						}
+					/>
+					<Route
+						path='/verify-email/:token'
+						element={
+							<PublicRoute>
+								<VerifyEmail />
 							</PublicRoute>
 						}
 					/>
