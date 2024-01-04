@@ -1,51 +1,40 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 function VerifyEmail() {
 	const { token } = useParams();
 	const navigate = useNavigate();
-	const [isVerified, setVerified] = useState(false);
+	const [verificationResult, setVerificationResult] = useState('');
 
 	useEffect(() => {
 		const verifyEmail = async () => {
 			try {
-				const response = await axios.get(
-					`/api/user/verify-email?token=${token}`
-				);
-				toast.success(response.data.message, { duration: 5000 });
-				setVerified(true);
+				const response = await axios.get(`/api/user/verify-email/${token}`);
+				console.log('Verification response:', response.data); // Dodaj ten log
+				setVerificationResult(response.data.message);
+				toast.success(response.data.message);
+				setTimeout(() => {
+					navigate('/login');
+				}, 5000); // Przekierowanie do logowania po 5 sekundach
 			} catch (error) {
+				console.error(error);
+				setVerificationResult('Błąd weryfikacji e-maila');
 				toast.error('Błąd weryfikacji e-maila');
-				navigate('/'); // Przekieruj gdziekolwiek, jeśli weryfikacja nie powiedzie się
+				setTimeout(() => {
+					navigate('/');
+				}, 5000); // Przekierowanie na stronę główną po 5 sekundach w przypadku błędu
 			}
 		};
 
 		verifyEmail();
 	}, [token, navigate]);
 
-	useEffect(() => {
-		let redirectTimer;
-		if (isVerified) {
-			// Ustaw timer na 5 sekund
-			redirectTimer = setTimeout(() => {
-				navigate('/login'); // Przekieruj użytkownika na stronę logowania po weryfikacji
-			}, 5000);
-		}
-
-		// Wyczyść timer, gdy komponent jest odmontowany
-		return () => clearTimeout(redirectTimer);
-	}, [isVerified, navigate]);
-
 	return (
-		<div className='verification-container'>
-			{isVerified && (
-				<div className='verification-message'>
-					<p>Email został pomyślnie zweryfikowany.</p>
-					<p>Zostaniesz przekierowany do strony logowania za 5 sekund.</p>
-				</div>
-			)}
+		<div className='verification-message-container'>
+			<p>{verificationResult}</p>
+			<p>Proszę czekać...</p>
 		</div>
 	);
 }

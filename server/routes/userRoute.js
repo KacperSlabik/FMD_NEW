@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
 			expiresIn: '1d',
 		});
 
-		const verificationLink = `http://localhost:3000/verify-email?token=${token}`;
+		const verificationLink = `http://localhost:3000/verify-email/${token}`;
 
 		const mailOptions = {
 			from: 'your.mail@gmail.com',
@@ -51,12 +51,10 @@ router.post('/register', async (req, res) => {
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
 				console.error(error);
-				res
-					.status(500)
-					.send({
-						message: 'Błąd wysyłania linku autoryzacyjnego',
-						success: false,
-					});
+				res.status(500).send({
+					message: 'Błąd wysyłania linku autoryzacyjnego',
+					success: false,
+				});
 			} else {
 				console.log('E-mail sent: ' + info.response);
 				res.status(200).send({
@@ -76,14 +74,16 @@ router.post('/register', async (req, res) => {
 	}
 });
 
-router.get('/verify-email', async (req, res) => {
-	const token = req.query.token;
+router.get('/verify-email/:token', async (req, res) => {
+	const token = req.params.token;
 	if (!token) {
 		return res.status(400).send({ message: 'Brak tokenu weryfikacyjnego' });
 	}
 
 	try {
 		const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+		console.log('Decoded token:', decodedToken); // Dodaj ten log
+
 		const userId = decodedToken.userId;
 
 		const user = await User.findById(userId);
@@ -98,9 +98,7 @@ router.get('/verify-email', async (req, res) => {
 		res.status(200).send({ message: 'E-mail zweryfikowany pomyślnie' });
 	} catch (error) {
 		console.error(error);
-		res
-			.status(500)
-			.send({ message: 'Błąd weryfikacji e-maila', error: error.message });
+		res.status(500).send({ message: 'Błąd weryfikacji e-maila', error });
 	}
 });
 
