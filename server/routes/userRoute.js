@@ -62,6 +62,35 @@ router.post('/login', async (req, res) => {
 	}
 });
 
+router.post('/login/auth', async (req, res) => {
+	try {
+		const verified_email = req.body.verified_email;
+
+		const user = await User.findOne({ email: req.body.email });
+
+		if (!user) {
+			return res
+				.status(200)
+				.send({ message: 'Użytkownik nie istnieje', success: false });
+		}
+		if (!verified_email) {
+			return res
+				.status(200)
+				.send({ message: 'Email niezweryfikowany', success: false });
+		}
+		const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+			expiresIn: '1h',
+		});
+
+		res
+			.status(200)
+			.send({ message: 'Zalogowano pomyślnie', success: true, data: token });
+	} catch (error) {
+		console.log(error);
+		res.status(500).send({ message: 'Błąd logowania', success: false, error });
+	}
+});
+
 router.post('/reset-password', async (req, res) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
