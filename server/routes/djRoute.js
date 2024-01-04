@@ -78,7 +78,7 @@ router.post('/change-booking-status', authMiddleware, async (req, res) => {
     unseenNotifications.push({
       type: 'booking-status-change',
       message: `Status rezerwacji został zaaktualizowany na: ${status}`,
-      onClickPath: '/bookings',
+      onClickPath: '/app/bookings',
     });
     await user.save();
 

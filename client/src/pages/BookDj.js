@@ -299,7 +299,15 @@ export default function BookAppointment() {
             </Col>
           </Row>
 
-          <Modal title="Potwierdzenie rezerwacji" open={confirmModalOpen} confirmLoading={confirmLoading} onOk={handleOk} onCancel={handleCancel}>
+          <Modal
+            title="Potwierdzenie rezerwacji"
+            open={confirmModalOpen}
+            cancelText="Anuluj"
+            okText="Potwierdź"
+            confirmLoading={confirmLoading}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
             <p>Czy na pewno chcesz dokonać rezerwacji?</p>
           </Modal>
         </Form>

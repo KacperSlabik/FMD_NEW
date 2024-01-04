@@ -1,182 +1,193 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&display=swap');
 
 * {
-	box-sizing: border-box;
-	font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+input,
+select,
+button,
+textarea {
+  font-family: 'Montserrat', sans-serif !important;
 }
 
 /* Common styling */
 
 .spinner-parent {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.7);
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
 }
 
 .spinner-border {
-	width: 5rem;
-	height: 5rem;
-	color: white;
+  width: 5rem;
+  height: 5rem;
+  color: white;
 }
 
 .page-title {
-	font-size: 25px;
-	color: black;
-	margin-bottom: 20px;
-	font-weight: bold;
+  font-size: 25px;
+  color: black;
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
 input {
-	border-radius: 2px !important;
-	border: 1px solid rgb(216, 216, 216) !important;
-	height: 40px !important;
+  border-radius: 2px !important;
+  border: 1px solid rgb(216, 216, 216) !important;
+  height: 40px !important;
 }
 
 .ant-picker-input input {
-	border: none !important;
+  border: none !important;
 }
 
 input:focus {
-	outline: none !important;
-	box-shadow: none !important;
-	border: 1px solid gray !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid gray !important;
 }
 
 label {
-	font-size: 16px !important;
-	color: black;
+  font-size: 16px !important;
+  color: black;
 }
 
 .ant-form-item {
-	margin: 10px 0 !important;
+  margin: 10px 0 !important;
 }
 
 .card-title {
-	font-size: 1.5rem;
-	font-weight: bold;
-	color: rgba(0, 0, 0, 0.514);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.514);
 }
 
 .normal-text {
-	font-size: 1rem;
+  font-size: 1rem;
 }
 
 .card {
-	box-shadow: 0 0 2px gray;
+  box-shadow: 0 0 2px gray;
 }
 
 .card header {
-	display: grid;
-	grid-template-columns: 125px 1fr;
-	gap: 10px;
-	padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: 125px 1fr;
+  gap: 10px;
+  padding-bottom: 10px;
 }
 
 .card header img {
-	width: 100%;
+  width: 100%;
 }
 
 @media screen and (max-width: 1200px) {
-	.card header {
-		grid-template-columns: 75px 1fr;
-	}
+  .card header {
+    grid-template-columns: 75px 1fr;
+  }
 }
 
 .primary-button {
-	background-color: orange !important;
-	border-color: orange !important;
-	height: 40px !important;
-	width: 100% !important;
-	color: white !important;
-	font-size: 1rem !important;
-	width: max-content !important;
+  background-color: orange !important;
+  border-color: orange !important;
+  height: 40px !important;
+  width: 100% !important;
+  color: white !important;
+  font-size: 1rem !important;
+  width: max-content !important;
 }
 
 .google-button {
-	background-color: white !important;
-	border-color: orange !important;
-	height: 40px !important;
-	width: 100% !important;
-	color: orange !important;
-	font-size: 1rem !important;
-	width: max-content !important;
-	gap: 5px;
+  background-color: white !important;
+  border-color: orange !important;
+  height: 40px !important;
+  width: 100% !important;
+  color: orange !important;
+  font-size: 1rem !important;
+  width: max-content !important;
+  gap: 5px;
 }
 
 .google-icon {
-	font-size: 25px;
+  font-size: 25px;
 }
 
 .full-width-button {
-	width: 100% !important;
+  width: 100% !important;
 }
 
 .anchor {
-	color: black;
-	text-decoration: underline;
-	font-size: 1rem;
-	cursor: pointer;
+  color: black;
+  text-decoration: underline;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .anchor:hover {
-	color: orange;
-	text-decoration: underline;
-	cursor: pointer;
+  color: orange;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* Authentication pages */
 
 .authentication {
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #2b2730;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2b2730;
 }
 
 .authentication-form {
-	width: 400px;
+  width: 400px;
 }
 
 .authentication .card-title {
-	font-size: 1.5rem;
-	font-weight: bold;
-	background-color: orange;
-	color: white;
-	max-width: max-content;
-	padding: 7px 15px;
-	margin-left: -40px;
-	border-bottom-left-radius: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: orange;
+  color: white;
+  max-width: max-content;
+  padding: 7px 15px;
+  margin-left: -40px;
+  border-bottom-left-radius: 15px;
 }
 
 .landing {
-	height: 100vh;
-	background-color: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .book-dj-header {
-	display: grid;
-	grid-template-columns: 200px 1fr;
-	gap: 10px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 10px;
 }
 
 .book-dj-header img {
-	width: 100%;
+  width: 100%;
 }
 
 @media screen and (max-width: 700px) {
-	.book-dj-header {
-		grid-template-columns: 100px 1fr;
-	}
+  .book-dj-header {
+    grid-template-columns: 100px 1fr;
+  }
+}
+
+.password-input input {
+  border: none !important;
 }
