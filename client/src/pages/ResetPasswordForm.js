@@ -9,11 +9,12 @@ import { hideLoading, showLoading } from '../redux/alertsSlice';
 function ResetPasswordForm() {
 	const { token } = useParams();
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [email, setEmail] = useState('');
+	const [isPasswordMatch, setIsPasswordMatch] = useState(true);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	// Wykorzystaj przekazane dane z tokenu
 	useEffect(() => {
 		try {
 			const decodedToken = JSON.parse(atob(token.split('.')[1]));
@@ -26,8 +27,17 @@ function ResetPasswordForm() {
 		}
 	}, [token]);
 
+	useEffect(() => {
+		setIsPasswordMatch(password === confirmPassword);
+	}, [password, confirmPassword]);
+
 	const onFinish = async () => {
 		try {
+			if (!password || !confirmPassword || !isPasswordMatch) {
+				toast.error('Wprowadź poprawne dane');
+				return;
+			}
+
 			dispatch(showLoading());
 
 			const response = await axios.post('/api/user/set-password', {
@@ -54,7 +64,7 @@ function ResetPasswordForm() {
 	return (
 		<div className='authentication'>
 			<div className='authentication-form card p-2'>
-				<h1 className='card-title'>Resetuj hasło 😊</h1>
+				<h1 className='card-title'>Teraz ustaw hasło 😊</h1>
 				<Form layout='vertical' onFinish={onFinish}>
 					<Form.Item
 						label='Nowe hasło'
@@ -66,9 +76,32 @@ function ResetPasswordForm() {
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 					</Form.Item>
+					<Form.Item
+						label='Potwierdź nowe hasło'
+						name='confirmPassword'
+						dependencies={['password']}
+						hasFeedback
+						rules={[
+							{ required: true, message: 'Proszę potwierdzić nowe hasło' },
+							({ getFieldValue }) => ({
+								validator(_, value) {
+									if (!value || getFieldValue('password') === value) {
+										return Promise.resolve();
+									}
+									return Promise.reject('Hasła nie są identyczne');
+								},
+							}),
+						]}
+					>
+						<Input.Password
+							placeholder='Powtórz nowe hasło'
+							onChange={(e) => setConfirmPassword(e.target.value)}
+						/>
+					</Form.Item>
 					<Button
 						className='primary-button my-2 full-width-button'
 						htmlType='submit'
+						disabled={!password || !confirmPassword || !isPasswordMatch}
 					>
 						Zresetuj hasło
 					</Button>

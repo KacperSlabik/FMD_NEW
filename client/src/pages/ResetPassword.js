@@ -1,5 +1,5 @@
 import { Button, Form, Input } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
@@ -54,6 +54,9 @@ function ResetPassword() {
 					>
 						Zresetuj hasło
 					</Button>
+					<Link to='/login' className='anchor d-block text-center mt-2'>
+						Powrót do logowania
+					</Link>
 				</Form>
 			</div>
 		</div>

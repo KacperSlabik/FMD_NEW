@@ -127,6 +127,7 @@ label {
 }
 
 .anchor:hover {
+	color: orange;
 	text-decoration: underline;
 	cursor: pointer;
 }

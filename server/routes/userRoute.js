@@ -132,7 +132,7 @@ router.post('/reset-password', async (req, res) => {
 
 		// Generuj token JWT
 		const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-			expiresIn: '5m',
+			expiresIn: '2m',
 		});
 
 		// Wyślij e-mail z linkiem do resetowania hasła

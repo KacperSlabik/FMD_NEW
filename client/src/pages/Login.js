@@ -9,7 +9,6 @@ import GoogleAuth from '../components/GoogleAuth';
 
 function Login() {
 	const { loading } = useSelector((state) => state.alerts);
-
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -37,19 +36,31 @@ function Login() {
 			<div className='authentication-form card p-2'>
 				<h1 className='card-title'>Witaj ponownie! 🥳</h1>
 				<Form layout='vertical' onFinish={onFinish}>
-					<Form.Item label='Email' name='email'>
+					<Form.Item
+						label='Email'
+						name='email'
+						rules={[
+							{ required: true, message: 'Proszę podać adres email' },
+							{ type: 'email', message: 'Proszę podać poprawny adres email' },
+						]}
+					>
 						<Input placeholder='Email'></Input>
 					</Form.Item>
-					<Form.Item label='Hasło' name='password'>
-						<Input placeholder='Hasło' type='password'></Input>
+					<Form.Item
+						label='Hasło'
+						name='password'
+						rules={[{ required: true, message: 'Proszę podać hasło' }]}
+					>
+						<Input.Password placeholder='Hasło' type='password' />
 					</Form.Item>
 					<Button
 						className='primary-button my-2 full-width-button shadow-sm'
 						htmlType='submit'
+						disabled={loading} // Dodaliśmy sprawdzenie, czy loading
 					>
 						Zaloguj się
 					</Button>
-					<GoogleAuth></GoogleAuth>
+					<GoogleAuth />
 					<div className='d-flex p-3'>
 						<Link
 							to='/reset-password'
@@ -66,5 +77,4 @@ function Login() {
 		</div>
 	);
 }
-
 export default Login;
