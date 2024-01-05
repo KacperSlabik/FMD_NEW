@@ -28,8 +28,6 @@ function DjsList() {
     }
   };
 
-  console.log(djs);
-
   const columns = [
     {
       title: 'Imię i nazwisko',

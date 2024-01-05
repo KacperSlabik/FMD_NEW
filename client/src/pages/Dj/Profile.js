@@ -17,7 +17,6 @@ export default function Profile() {
   const getDjData = async () => {
     try {
       dispatch(showLoading());
-      console.log(localStorage.getItem('token'));
       const response = await axios.post(
         '/api/dj/get-dj-info-by-user-id',
         { userId: params.userId },
@@ -28,7 +27,6 @@ export default function Profile() {
         }
       );
       dispatch(hideLoading());
-      console.log(response.data.data);
       if (response.data.success) {
         setDj(response.data.data);
       }
@@ -42,10 +40,7 @@ export default function Profile() {
   }, []);
 
   const onFinish = async (values) => {
-    console.log(values);
-
     try {
-      console.log('Success:', values);
       dispatch(showLoading());
       const response = await axios.post(
         '/api/dj/update-dj',

@@ -33,7 +33,6 @@ function UsersList() {
 
   const blockUser = () => {
     console.warn('TODO: To implement');
-    console.log(moment('2023-09-28T13:36:35.636Z'));
   };
 
   const columns = [

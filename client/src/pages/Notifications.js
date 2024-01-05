@@ -62,8 +62,6 @@ function Notifications() {
     }
   };
 
-  console.log(user?.unseenNotifications);
-
   return (
     <Layout>
       <h1 className="page-title">Powiadomienia</h1>

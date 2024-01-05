@@ -33,7 +33,7 @@ function Home() {
 
       <Row gutter={20}>
         <Divider orientation="left" orientationMargin="0">
-          <h2 className="mb-2">Dje</h2>
+          <h2 className="mb-2">DJe</h2>
         </Divider>
         {djs.map((dj) => (
           <Col span={8} xs={24} sm={24} lg={8} key={dj._id}>

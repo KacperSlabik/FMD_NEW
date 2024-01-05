@@ -79,7 +79,7 @@ function Layout({ children }) {
   ];
 
   const menuToBeRendered = user?.isAdmin ? adminMenu : user?.isDj ? djMenu : userMenu;
-  const role = user?.isAdmin ? 'Administrator' : user?.isDj ? 'Dj' : 'Użytkownik';
+  const role = user?.isAdmin ? 'Administrator' : user?.isDj ? 'DJ' : 'Użytkownik';
 
   useEffect(() => {
     localStorage.setItem('collapsed', collapsed);
@@ -99,7 +99,7 @@ function Layout({ children }) {
               const isActive = location.pathname === menu.path;
 
               return (
-                <div className={`d-flex menu-item ${isActive && 'active-menu-item'}`}>
+                <div className={`d-flex menu-item ${isActive && 'active-menu-item'}`} key={menu.name}>
                   <Popover content={collapsed ? menu.name : null} trigger="hover">
                     <Link to={menu.path}>
                       <i className={`${menu.icon} ${isActive && 'active-menu-icon '}`}></i>

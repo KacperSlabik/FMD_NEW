@@ -92,7 +92,7 @@ function Bookings() {
     <Layout>
       <h1 className="page-title">Rezerwacje</h1>
       <hr />
-      <Table columns={columns} dataSource={bookings} />
+      <Table columns={columns} dataSource={bookings} rowKey="_id" />
     </Layout>
   );
 }

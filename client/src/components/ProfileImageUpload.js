@@ -20,7 +20,6 @@ const ImagesUpload = ({ handleImageUpload }) => {
   const handleCancel = () => setPreviewOpen(false);
 
   const handlePreview = async (file) => {
-    console.log(file);
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }

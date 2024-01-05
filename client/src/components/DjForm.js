@@ -12,7 +12,6 @@ export default function DjForm({ onFinish, initialValues }) {
   const [selectedOffers, setSelectedOffers] = useState(initialValues?.offers ? initialValues?.offers : []);
 
   const handleFormSubmit = async (values) => {
-    console.log(profilePicture);
     let profileImage = {};
 
     if (profilePicture.length !== 0) {
@@ -21,7 +20,6 @@ export default function DjForm({ onFinish, initialValues }) {
       profileImage = {
         profileImage: profileBase64,
       };
-      console.log(profileBase64);
     }
 
     onFinish({
@@ -127,7 +125,7 @@ export default function DjForm({ onFinish, initialValues }) {
               optionLabelProp="label"
             >
               {musicGenres.map((musicGenre) => (
-                <Select.Option value={musicGenre._id} label={musicGenre.name}>
+                <Select.Option value={musicGenre._id} key={musicGenre._id} label={musicGenre.name}>
                   {musicGenre.name}
                 </Select.Option>
               ))}
@@ -146,7 +144,7 @@ export default function DjForm({ onFinish, initialValues }) {
               optionLabelProp="label"
             >
               {offers.map((offer) => (
-                <Select.Option value={offer._id} label={offer.name}>
+                <Select.Option value={offer._id} key={offer._id} label={offer.name}>
                   {offer.name}
                 </Select.Option>
               ))}

@@ -6,10 +6,16 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { Button, Table, Tag } from 'antd';
 import moment from 'moment';
+import { getRemainingTime } from '../../utils.js';
 
 function DjBookings() {
   const [bookings, setBookings] = useState([]);
   const dispatch = useDispatch();
+
+  const handleConfirmExpire = async (id) => {
+    console.log('TODO: Koniec:', id);
+  };
+
   const getBookingsData = async () => {
     try {
       dispatch(showLoading());
@@ -106,30 +112,39 @@ function DjBookings() {
       },
     },
     {
+      title: 'Data dodania',
+      render: (text, record) => <span>{moment(record.createdAt).format('DD-MM-YYYY HH:mm')}</span>,
+    },
+    {
       title: 'Akcje',
       dataIndex: 'actions',
-      render: (text, record) => (
-        <div className="d-flex">
-          {record.status === 'Oczekuje' && (
-            <div className="d-flex" style={{ gap: '10px' }}>
-              <Button type="primary" onClick={() => changeBookingStatus(record, 'Potwierdzona')}>
-                Potwierdź
-              </Button>
+      render: (text, record) => {
+        const [timeText, isEnded] = getRemainingTime(record.createdAt, 2);
+        if (isEnded) handleConfirmExpire(record._id);
+        return (
+          <div className="d-flex" style={{ gap: '10px', alignItems: 'center' }}>
+            {record.status === 'Oczekuje' && (
+              <div className="d-flex" style={{ gap: '10px' }}>
+                <Button type="primary" onClick={() => changeBookingStatus(record, 'Potwierdzona')}>
+                  Potwierdź
+                </Button>
 
-              <Button danger onClick={() => changeBookingStatus(record, 'Odrzucona')}>
-                Odrzuć
-              </Button>
-            </div>
-          )}
-        </div>
-      ),
+                <Button danger onClick={() => changeBookingStatus(record, 'Odrzucona')}>
+                  Odrzuć
+                </Button>
+              </div>
+            )}
+            <span>{timeText}</span>
+          </div>
+        );
+      },
     },
   ];
   return (
     <Layout>
       <h1 className="page-title">Rezerwacje</h1>
       <hr />
-      <Table columns={columns} dataSource={bookings} />
+      <Table columns={columns} dataSource={bookings} rowKey="_id" />
     </Layout>
   );
 }

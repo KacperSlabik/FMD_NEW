@@ -51,7 +51,6 @@ export default function BookAppointment() {
   const getDjData = async () => {
     try {
       dispatch(showLoading());
-      console.log(localStorage.getItem('token'));
       const response = await axios.post(
         '/api/dj/get-dj-info-by-id',
         { djId: params.djId },
@@ -62,7 +61,6 @@ export default function BookAppointment() {
         }
       );
       dispatch(hideLoading());
-      console.log(response.data.data);
       if (response.data.success) {
         setDj(response.data.data);
         getMusicGenres(response.data.data);
@@ -204,7 +202,7 @@ export default function BookAppointment() {
     <Layout>
       {dj && (
         <Form layout="vertical" onFinish={showModal}>
-          <header class="book-dj-header">
+          <header className="book-dj-header">
             {dj?.profileImage && <img src={dj.profileImage} alt={dj.alias} className="rounded" />}
             <div>
               <h1 className="page-title">
