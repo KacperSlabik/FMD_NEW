@@ -108,6 +108,12 @@ export default function DjForm({ onFinish, initialValues }) {
             <Input placeholder="Opis"></Input>
           </Form.Item>
         </Col>
+
+        <Col span={8} xs={24} sm={24} lg={8}>
+          <Form.Item label="Facebook" name="facebook" rules={[{ required: true }]}>
+            <Input type="url" placeholder="Facebook"></Input>
+          </Form.Item>
+        </Col>
       </Row>
       <Row gutter={20}>
         <Col span={8} xs={24} sm={24} lg={8}>

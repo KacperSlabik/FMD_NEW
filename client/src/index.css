@@ -76,19 +76,29 @@ label {
   font-size: 1rem;
 }
 
+/* 
 .card {
   box-shadow: 0 0 2px gray;
-}
+} */
 
 .card header {
   display: grid;
   grid-template-columns: 125px 1fr;
   gap: 10px;
-  padding-bottom: 10px;
+}
+
+.card header div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .card header img {
   width: 100%;
+}
+
+.card header * {
+  margin: 0;
 }
 
 @media screen and (max-width: 1200px) {
@@ -182,6 +192,23 @@ label {
   width: 100%;
 }
 
+.dj-default-icon {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: rgb(236, 236, 236);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dj-default-icon svg {
+  height: 60%;
+}
+
+.dj-default-icon svg path {
+  fill: #cdcdcd;
+}
+
 @media screen and (max-width: 700px) {
   .book-dj-header {
     grid-template-columns: 100px 1fr;
@@ -190,4 +217,31 @@ label {
 
 .password-input input {
   border: none !important;
+}
+
+.facebook-button {
+  background-color: #3b5998;
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  display: flex;
+  gap: 5px;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.facebook-button:hover {
+  color: white;
+  opacity: 0.95;
+}
+
+.star-rating svg path {
+  color: orange;
+}
+
+.text-with-icon {
+  display: flex;
+  gap: 5px;
 }

@@ -46,6 +46,9 @@ const djSchema = new mongoose.Schema(
     profileImage: {
       type: String,
     },
+    facebook: {
+      type: String,
+    },
   },
   {
     timestamps: true,

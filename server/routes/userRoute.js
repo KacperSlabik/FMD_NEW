@@ -25,10 +25,13 @@ router.post('/register', async (req, res) => {
       return res.status(409).send({ message: 'Użytkownik już istnieje', success: false });
     }
 
+    // Haszowanie hasła przed zapisaniem do bazy danych
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
     const newuser = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
     });
 
     await newuser.save();
