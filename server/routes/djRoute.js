@@ -116,7 +116,7 @@ router.post('/remove-expired-bookings', authMiddleware, async (req, res) => {
 
 			user.unseenNotifications.push({
 				type: 'booking-rejected-after-48h',
-				message: `DJ - ${dj._id} nie przyjął Twojej rezerwacji w ciągu 48 godzin od złożenia.`,
+				message: `DJ - ${dj.firstName} nie przyjął Twojej rezerwacji w ciągu 48 godzin od złożenia.`,
 				onClickPath: '/app/bookings',
 			});
 
