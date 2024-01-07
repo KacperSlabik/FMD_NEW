@@ -241,6 +241,10 @@ label {
   color: orange;
 }
 
+.star-rating.empty svg path {
+  color: #cdcdcd;
+}
+
 .text-with-icon {
   display: flex;
   gap: 5px;
