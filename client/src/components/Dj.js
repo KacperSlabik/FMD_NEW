@@ -39,7 +39,7 @@ export default function Dj({ dj }) {
               {dj.firstName} {dj.lastName}
             </p>
           </h1>
-          <Rating rating={5} />
+          <Rating rating={dj?.rating ? dj?.rating : 0} />
 
           <p className="text-with-icon">
             <span>
