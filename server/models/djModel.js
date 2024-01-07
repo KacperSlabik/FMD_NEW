@@ -49,6 +49,9 @@ const djSchema = new mongoose.Schema(
     facebook: {
       type: String,
     },
+    rating: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

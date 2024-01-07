@@ -45,5 +45,10 @@ export default function Rating({ rating }) {
     );
   }
 
-  return <span className={`star-rating ${rating === 0 ? 'empty' : ''}`}>{ratingEl}</span>;
+  return (
+    <div>
+      <span className={`star-rating ${rating === 0 ? 'empty' : ''}`}>{ratingEl}</span>
+      {rating > 0 && rating}
+    </div>
+  );
 }
